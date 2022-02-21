@@ -1,8 +1,8 @@
 #%%
-from Tools import GenerateConstants, StringToBinary, FetchRandomText
+from Tools import GenerateConstants, PreProcessing, FetchRandomText
 import requests
 gc = GenerateConstants()
-s2b = StringToBinary()
+preprocessing = PreProcessing()
 fetch = FetchRandomText()
 list = gc.genCubeRoots(gc.generate(64))
 list2 = gc.generate(64)
@@ -10,12 +10,22 @@ list2 = gc.generate(64)
 #     print(i," || ",list2[i] , "|| Cube = " ,list2[i]**(1./3.), "|| digits = ",list[i]," || binary of decimal values = ", format(int(list2[i]* 10**16),"b") )
 
 
+#converting string to binary
+FinalBinary, lengthOfOriginal, Original = preprocessing.S2B("hello world")
+print(FinalBinary,"\n",lengthOfOriginal)
 
-Val = s2b.S2B("hello")
+
+print("Length of Original in binary, to be appended to the padded list = ", gc.decimalToBinary(lengthOfOriginal))
 #Val = s2b.S2B(fetch.fetchRandomText())
-padded = s2b.pad(Val,512)
-print(padded)
-#print(Val)
+
+
+#pad with 0 till string is a multiple of 512
+#padded = preprocessing.pad(Val,512)
+#print(padded)
+
+#subtract 64 bits for "big-endian"
+#print(preprocessing.processForBigEndian(padded))
+
 
 
 

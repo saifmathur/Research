@@ -40,17 +40,22 @@ class GenerateConstants:
             self.toBinary(num // 2)
         print(num%2,end='')
 
+    def decimalToBinary(self,n):
+        return bin(n).replace("0b", "0")
 
-class StringToBinary:
+class PreProcessing:
     def S2B(self, string):
         res = []
+        originalStringBits = []
+        originalStringLength = 0
         for i in string:
             #print(bin(ord(i))[2:].zfill(8)) #to eliminate 0b
             #zfill() 0 pad to make it of len 8
             res.append(bin(ord(i))[2:].zfill(8))
-        
+        originalStringLength = len(res)
+        originalStringBits = res
         res.append(str(1).ljust(8,'0'))
-        return res
+        return res, originalStringLength, originalStringBits
 
     def pad(self, list ,multiple):
         while not (len(list)/multiple*8).is_integer():
@@ -59,7 +64,15 @@ class StringToBinary:
         print("length of list given is now = ", len(list))
         print("length of data bits in the list is now = ", len(list*8))
         return list
-            
+    
+    def processForBigEndian(self, padded_list):
+        length = len(padded_list)
+        del padded_list[length-8:length]
+        #print(padded_list)
+        print("data length: ",len(padded_list)*8)
+        padded_list_with_bigEndian_space = padded_list
+        return padded_list_with_bigEndian_space
+
 class FetchRandomText:
     def fetchRandomText(self, URL = "https://baconipsum.com/api/?type=meat-and-filler&paras=5&format=text"):
         response = requests.get(URL)
