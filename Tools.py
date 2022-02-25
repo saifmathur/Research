@@ -41,7 +41,8 @@ class GenerateConstants:
         print(num%2,end='')
 
     def decimalToBinary(self,n):
-        return bin(n).replace("0b", "0")
+        str1 = bin(n).replace("0b", "0")
+        return str1.ljust(8,'0')
 
 class PreProcessing:
     def S2B(self, string):
