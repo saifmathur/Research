@@ -42,7 +42,8 @@ class GenerateConstants:
 
     def decimalToBinary(self,n):
         str1 = bin(n).replace("0b", "0")
-        return str1.ljust(8,'0')
+        #return str1.ljust(8,'0')
+        return str1
 
 class PreProcessing:
     def S2B(self, string):
@@ -70,10 +71,29 @@ class PreProcessing:
         length = len(padded_list)
         del padded_list[length-8:length]
         #print(padded_list)
-        print("data length: ",len(padded_list)*8)
+        #print("data length: ",len(padded_list)*8)
         padded_list_with_bigEndian_space = padded_list
         return padded_list_with_bigEndian_space
 
+    def add_bigEndianNumber(self, length):
+        length_to_binary = bin(length).replace('0b','0')
+        print(length_to_binary)  
+        return length_to_binary
+        
+    def decimalToBinary(self,n):
+        str1 = bin(n).replace("0b", "0")
+        #return str1.ljust(8,'0')
+        return str1
+    
+    def combine_string_appendBigEndian(self,before_string,lenOfOriginalString):
+        #pad 0s till theres space for the big endian binary number and append big endian
+        before_string = ''.join(before_string)
+        pad_till = self.decimalToBinary(lenOfOriginalString)
+        for i in range(len(before_string), len(before_string)+(64-len(pad_till))):
+            before_string = before_string + '0'
+        before_string = before_string + pad_till
+        return(before_string)
+    
 class FetchRandomText:
     def fetchRandomText(self, URL = "https://baconipsum.com/api/?type=meat-and-filler&paras=5&format=text"):
         response = requests.get(URL)
@@ -87,5 +107,9 @@ class FetchRandomText:
 class PreparePadding:
     def prepPad(self, list):
         print()
+
+
+
+
 
 

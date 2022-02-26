@@ -4,3 +4,8 @@
 2. understand all methods
 3. code alternative
 4. compare hash times
+
+
+Status:
+* preprocessing done till:
+     prepare message till big endian and multiple of 512
