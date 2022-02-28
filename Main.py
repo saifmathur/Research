@@ -11,8 +11,8 @@ list2 = gc.generate(64)
 
 
 #converting string to binary
-#FinalBinary, lengthOfOriginal, Original = preprocessing.S2B("hello world")
-FinalBinary, lengthOfOriginal, Original = preprocessing.S2B(fetch.fetchRandomText())
+FinalBinary, lengthOfOriginal, Original = preprocessing.S2B("abcd")
+#FinalBinary, lengthOfOriginal, Original = preprocessing.S2B(fetch.fetchRandomText())
 
 
 
@@ -26,24 +26,19 @@ before_big_endian = preprocessing.processForBigEndian(padded) #448
 
 #combine string and add big endian
 combined_string_with_bigEndian = preprocessing.combine_string_appendBigEndian(before_big_endian,lengthOfOriginal)
-print(combined_string_with_bigEndian)
+#print(combined_string_with_bigEndian)
 
-print("CHECK for multiple of 512:")
+print("CHECK for multiple of 512: ")
 print("OK" if len(combined_string_with_bigEndian)%512==0 else "FAILED")
 
 
-# combined_string = preprocessing.combine_string(before_big_endian)
+#break into 512 bit chunks
+print("breaking message into 512 bit chunks...")
+message_chunked_to_512 = preprocessing.break_into_512_chunks(combined_string_with_bigEndian)
 
-# #now pad 0s till theres space for the big endian binary number
-# #print(len(combined_string))
-# #print(len(gc.decimalToBinary(lengthOfOriginal)))
-# pad_till = gc.decimalToBinary(lengthOfOriginal)
-# for i in range(len(combined_string), len(combined_string)+(64-len(pad_till))):
-#     combined_string = combined_string + '0'
-# combined_string = combined_string + pad_till
+#print chunks
+preprocessing.printChunked(message_chunked_to_512)
 
-# #print(len(combined_string))
-# print(combined_string)
 
 
 

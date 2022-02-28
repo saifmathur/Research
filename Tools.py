@@ -79,7 +79,7 @@ class PreProcessing:
         length_to_binary = bin(length).replace('0b','0')
         print(length_to_binary)  
         return length_to_binary
-        
+
     def decimalToBinary(self,n):
         str1 = bin(n).replace("0b", "0")
         #return str1.ljust(8,'0')
@@ -93,9 +93,23 @@ class PreProcessing:
             before_string = before_string + '0'
         before_string = before_string + pad_till
         return(before_string)
+
+    def break_into_512_chunks(self, str):
+        n = 512
+        chunks = [str[i:i+n] for i in range(0, len(str), n)]
+        #print(chunks)
+        return chunks
+        
+    def printChunked(self, list):
+        print("Number of chunks = ",len(list))
+        for i in range(len(list)):
+            print("------------")
+            print("Block ", i ,"\n" , list[i] + "\n")
+           
     
 class FetchRandomText:
     def fetchRandomText(self, URL = "https://baconipsum.com/api/?type=meat-and-filler&paras=5&format=text"):
+
         response = requests.get(URL)
         if response.status_code == 200:
             print("STATUS: OK")
