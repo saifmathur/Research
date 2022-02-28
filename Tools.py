@@ -1,6 +1,6 @@
 #%%
 import requests
-
+import math
 class GenerateConstants:
     constList = []
     def isPrime(self, n):
@@ -34,6 +34,21 @@ class GenerateConstants:
         return cubeList    
             #cubeList.append()
 
+    def genHashedConstants(self):
+        #generate hashed constants of first 8 primes
+        first_eight_prime_list = self.generate(8)
+        for i in range(len(first_eight_prime_list)):
+            print(first_eight_prime_list[i]," = ", math.sqrt(first_eight_prime_list[i]))
+
+        # binary_of_cubeRoot_fractionalPart = []
+        # final = []
+        # for i in range(0,len(first_eight_prime_list)):
+        #     binary_of_cubeRoot_fractionalPart.append(format(int(first_eight_prime_list[i]* 10**16),"b"))
+        # for i in range(len(binary_of_cubeRoot_fractionalPart)):
+        #     print(binary_of_cubeRoot_fractionalPart[i][0:31], hex(int(binary_of_cubeRoot_fractionalPart[i][0:31],2)))
+            
+        
+        #print(final)
 
     def toBinary(self, num):
         if num >=1:
@@ -121,8 +136,6 @@ class FetchRandomText:
 class PreparePadding:
     def prepPad(self, list):
         print()
-
-
 
 
 
