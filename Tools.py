@@ -35,7 +35,7 @@ class GenerateConstants:
             cubeList.append(fractional)
         return cubeList
 
-    def calHexOfCube(self,cubeList):
+    def calHexOfCube(self,cubeList,hexForm = True):
         constants = []
         for i in range(len(cubeList)):
             hexString = ""
@@ -57,7 +57,14 @@ class GenerateConstants:
             constants.append(hexString)
         print("Constants generated. \n Length of constants list: " , len(constants))
         #print(constants,"length: ",len(constants))
-        return constants    
+        if hexForm:
+            return constants    
+        else:
+            hexToBinary = []
+            for i in range(len(constants)):
+                hexToBinary.append(bin(int(constants[i], 16))[2:].zfill(32))
+            return hexToBinary    
+
             
 
     def toBinary(self, num):

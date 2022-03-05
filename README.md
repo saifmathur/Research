@@ -7,5 +7,4 @@
 
 
 Status:
-* preprocessing done till:
-     prepare message till big endian and multiple of 512
+* constants generated with either hex or binary functionality
