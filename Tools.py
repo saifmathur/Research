@@ -1,8 +1,9 @@
 #%%
+from math import floor as mf
 import requests
 import math
 class GenerateConstants:
-    constList = []
+    
     def isPrime(self, n):
         if n==1 or n==0:
             return False
@@ -14,41 +15,50 @@ class GenerateConstants:
 
 
     def generate(self, length):
-        i = 0
-        while len(self.constList) != length:
+        constList = []
+        i=0
+        while not len(constList) == length:
             if self.isPrime(i):
-                self.constList.append(i)
-            i = i+1
+                constList.append(i)
+            i=i+1
         
-        return self.constList     
+        return constList
         
-    def genCubeRoots(self,List):
+        
+        
+    def genCubeRoots(self,primeList):
         cubeList = []
-        for i in range(len(List)):
-            #print(List[i])
-            #print("cube =" , List[i]**(1./3.))
-            digits = len(str(List[i] **(1./3.)))
-            digits = digits - 2
-            #print(digits)
-            cubeList.append(digits)
-        return cubeList    
-            #cubeList.append()
+        for i in range(len(primeList)):
+            root = primeList[i] **(1/3.0)
+            #fractional part
+            fractional = root - math.floor(root)
+            cubeList.append(fractional)
+        return cubeList
 
-    def genHashedConstants(self):
-        #generate hashed constants of first 8 primes
-        first_eight_prime_list = self.generate(8)
-        for i in range(len(first_eight_prime_list)):
-            print(first_eight_prime_list[i]," = ", math.sqrt(first_eight_prime_list[i]))
+    def calHexOfCube(self,cubeList):
+        constants = []
+        for i in range(len(cubeList)):
+            hexString = ""
+            fractional = cubeList[i]
+            #num = cubeList[i]*16
+            #intPart = mf(num)
+            #fractPart = num - intPart
+            for j in range(8):
+                product = fractional * 16
+                carry = mf(product)
+                fractional = product - mf(product)
+                if carry > 9:
+                    hexString = hexString + hex(carry).removeprefix("0x")
+                else:
+                    hexString = hexString + str(carry)
 
-        # binary_of_cubeRoot_fractionalPart = []
-        # final = []
-        # for i in range(0,len(first_eight_prime_list)):
-        #     binary_of_cubeRoot_fractionalPart.append(format(int(first_eight_prime_list[i]* 10**16),"b"))
-        # for i in range(len(binary_of_cubeRoot_fractionalPart)):
-        #     print(binary_of_cubeRoot_fractionalPart[i][0:31], hex(int(binary_of_cubeRoot_fractionalPart[i][0:31],2)))
+            #print(hexString)
+            hexString = "0x" + hexString
+            constants.append(hexString)
+        print("Constants generated. \n Length of constants list: " , len(constants))
+        #print(constants,"length: ",len(constants))
+        return constants    
             
-        
-        #print(final)
 
     def toBinary(self, num):
         if num >=1:

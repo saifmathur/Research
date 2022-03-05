@@ -1,4 +1,6 @@
 #%%
+from asyncio import constants
+
 from Tools import GenerateConstants, PreProcessing, FetchRandomText
 import requests
 gc = GenerateConstants()
@@ -9,7 +11,7 @@ list2 = gc.generate(8)
 
 
 
-print(list)
+
 
 # for i in range(0,len(list2)):
 #     print(i," || ",list2[i] , "|| Cube = " ,list2[i]**(1./3.), "|| digits = ",list[i]," || binary of decimal values = ", format(int(list2[i]* 10**16),"b") )
@@ -47,6 +49,11 @@ message_chunked_to_512 = preprocessing.break_into_512_chunks(combined_string_wit
 
 
 #gen hashed constants
-gc.genHashedConstants()
+#gc.genHashedConstants()
 
-# %%
+primeList = gc.generate(64)
+cubeList  = gc.genCubeRoots(primeList)
+#print(cubeList)
+constants64 = gc.calHexOfCube(cubeList)
+
+
