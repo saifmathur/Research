@@ -34,6 +34,14 @@ class GenerateConstants:
             fractional = root - math.floor(root)
             cubeList.append(fractional)
         return cubeList
+    
+    def genSquareRoots(self,primeList):
+        squareRootList = []
+        for i in range(len(primeList)):
+            square = math.sqrt(primeList[i])
+            fractional = square - math.floor(square)
+            squareRootList.append(fractional)
+        return squareRootList
 
     def calHexOfCube(self,cubeList,hexForm = True):
         constants = []
@@ -65,7 +73,12 @@ class GenerateConstants:
                 hexToBinary.append(bin(int(constants[i], 16))[2:].zfill(32))
             return hexToBinary    
 
-            
+
+    def hashValues(self, value=8):
+        cubeList = self.genSquareRoots(self.generate(value))
+        hash_values = self.calHexOfCube(cubeList=cubeList,hexForm=True)
+        return hash_values
+
 
     def toBinary(self, num):
         if num >=1:
@@ -138,7 +151,16 @@ class PreProcessing:
             print("------------")
             print("Block ", i ,"\n" , list[i] + "\n")
            
-    
+    def createMessageSchedule(self, chunkList, n=32):
+        #message_schedule = [chunkList[i:i+n] for i in range(0, len(chunkList), n)]
+        message_schedule = []
+        for i in range(len(chunkList)):
+            for j in range(0,len(chunkList[i]),n):
+                message = chunkList[i][j:j+n]
+                message_schedule.append(message)
+        return message_schedule
+            
+
 class FetchRandomText:
     def fetchRandomText(self, URL = "https://baconipsum.com/api/?type=meat-and-filler&paras=5&format=text"):
 

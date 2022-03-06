@@ -1,25 +1,17 @@
 #%%
 from asyncio import constants
+import chunk
 
 from Tools import GenerateConstants, PreProcessing, FetchRandomText
 import requests
 gc = GenerateConstants()
 preprocessing = PreProcessing()
 fetch = FetchRandomText()
-list = gc.genCubeRoots(gc.generate(8))
-list2 = gc.generate(8)
-
-
-
-
-
-# for i in range(0,len(list2)):
-#     print(i," || ",list2[i] , "|| Cube = " ,list2[i]**(1./3.), "|| digits = ",list[i]," || binary of decimal values = ", format(int(list2[i]* 10**16),"b") )
 
 
 #converting string to binary
-#FinalBinary, lengthOfOriginal, Original = preprocessing.S2B("abc")
-FinalBinary, lengthOfOriginal, Original = preprocessing.S2B(fetch.fetchRandomText())
+FinalBinary, lengthOfOriginal, Original = preprocessing.S2B("abc")
+#FinalBinary, lengthOfOriginal, Original = preprocessing.S2B(fetch.fetchRandomText())
 
 
 
@@ -42,18 +34,26 @@ print("OK" if len(combined_string_with_bigEndian)%512==0 else "FAILED")
 #break into 512 bit chunks
 print("breaking message into 512 bit chunks...")
 message_chunked_to_512 = preprocessing.break_into_512_chunks(combined_string_with_bigEndian)
-print(message_chunked_to_512)
+
 
 #print chunks
 #preprocessing.printChunked(message_chunked_to_512)
 
-
-#gen hashed constants
-#gc.genHashedConstants()
 
 primeList = gc.generate(64)
 cubeList  = gc.genCubeRoots(primeList)
 #print(cubeList)
 constants64 = gc.calHexOfCube(cubeList)
 #print(constants64)
+
+
+#get hash values
+hash_values = gc.hashValues()
+#print(hash_values)
+
+
+#create message schedule
+message_schedule = preprocessing.createMessageSchedule(chunkList=message_chunked_to_512)
+print(message_schedule,"\nLenght of message schedule: ",len(message_schedule))
+
 
