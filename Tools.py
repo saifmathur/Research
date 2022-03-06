@@ -1,5 +1,7 @@
 #%%
 from math import floor as mf
+from collections import deque
+from msilib.schema import Error #to right rotate
 import requests
 import math
 class GenerateConstants:
@@ -159,7 +161,21 @@ class PreProcessing:
                 message = chunkList[i][j:j+n]
                 message_schedule.append(message)
         return message_schedule
-            
+
+    def rightRotate(self, messageString, rotateBy = 1):
+        #rotatedMessage = []
+        if not rotateBy < 0:
+            items = deque(messageString)
+            items.rotate(rotateBy)
+            return ''.join(items) 
+        else:
+            raise Error("'Rotateby' should be positive")
+        
+    def leftRotate(self, messageString, rotateBy=-abs(1)):
+        print()
+    def refineMessageSchedule(self, w):
+        print()
+       
 
 class FetchRandomText:
     def fetchRandomText(self, URL = "https://baconipsum.com/api/?type=meat-and-filler&paras=5&format=text"):
@@ -177,5 +193,32 @@ class PreparePadding:
         print()
 
 
+#%%
+# 0 1 1 0 1 1 1 1 0 0 1 0 0 0 0 0 0 1 1 1 0 1 1 1 0 1 1 0 1 1 1 1 
+
+# i0 = 1 1 0 1 1 1 1 0 0 1 0 0 0 0 0 0 1 1 1 0 1 1 1 0 1 1 0 1 1 1 1 0
+# i1 = 1 0 1 1 1 1 0 0 1 0 0 0 0 0 0 1 1 1 0 1 1 1 0 1 1 0 1 1 1 1 0 1
+# i2 = 0 1 1 1 1 0 0 1 0 0 0 0 0 0 1 1 1 0 1 1 1 0 1 1 0 1 1 1 1 0 1 1
+# i3 = 1 1 1 1 0 0 1 0 0 0 0 0 0 1 1 1 0 1 1 1 0 1 1 0 1 1 1 1 0 1 1 0
+# i4 = 1 1 1 0 0 1 0 0 0 0 0 0 1 1 1 0 1 1 1 0 1 1 0 1 1 1 1 0 1 1 0 1
+# i5 = 1 1 0 0 1 0 0 0 0 0 0 1 1 1 0 1 1 1 0 1 1 0 1 1 1 1 0 1 1 0 1 1
+# i6 = 1 0 0 1 0 0 0 0 0 0 1 1 1 0 1 1 1 0 1 1 0 1 1 1 1 0 1 1 0 1 1 1
+
+# def test(message_schedule):
+#     for i in range(16,63):
+#         message_schedule[len(message_schedule)-1] = message_schedule[0]
+#         message_schedule[i] = message_schedule[i+1]
+#     print(message_schedule)
 
 
+# test([1,2,3,4])
+
+#%%
+# from collections import deque
+# items = deque('01101111001000000111011101101111')
+# items.rotate(7)
+# ''.join(items)
+
+
+
+# %%

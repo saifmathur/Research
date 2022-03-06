@@ -10,7 +10,7 @@ fetch = FetchRandomText()
 
 
 #converting string to binary
-FinalBinary, lengthOfOriginal, Original = preprocessing.S2B("abc")
+FinalBinary, lengthOfOriginal, Original = preprocessing.S2B("hello world")
 #FinalBinary, lengthOfOriginal, Original = preprocessing.S2B(fetch.fetchRandomText())
 
 
@@ -54,6 +54,8 @@ hash_values = gc.hashValues()
 
 #create message schedule
 message_schedule = preprocessing.createMessageSchedule(chunkList=message_chunked_to_512)
-print(message_schedule,"\nLenght of message schedule: ",len(message_schedule))
+#print(message_schedule,"\nLenght of message schedule: ",len(message_schedule))
 
 
+
+# %%
