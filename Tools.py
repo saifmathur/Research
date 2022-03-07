@@ -172,9 +172,44 @@ class PreProcessing:
             raise Error("'Rotateby' should be positive")
         
     def leftRotate(self, messageString, rotateBy=-abs(1)):
-        print()
-    def refineMessageSchedule(self, w):
-        print()
+        if rotateBy < 0:
+            items = deque(messageString)
+            items.rotate(rotateBy)
+            return ''.join(items) 
+        else:
+            raise Error("'Rotateby' should be negative")
+
+    
+    # def sigma1(self,x):
+    #     a = int(self.rightRotate(x,17),2)
+    #     b = int(self.rightRotate(x,19),2)
+
+    def shiftRight(self, messageString, shiftBy = 1):
+        if shiftBy < 32: 
+            messageString = int(messageString,2)
+            result = messageString >> shiftBy
+            #print(result)
+            result = format(result,'032b')
+            return result
+        else:
+            raise Error("'shiftBy' factor cannot be negative" + str(shiftBy))
+
+    def shiftLeft(self, messageString, shiftBy = 1):
+        if shiftBy < 32:
+            shiftBy = shiftBy-1
+            messageString = int(messageString,2)
+            result = messageString << shiftBy
+            #print(result)
+            result = format(result,'032b')
+            return str(result)[shiftBy:]
+        else:
+            raise Error("Change 'shiftBy' factor")
+
+    # def refineMessageSchedule(self, message_schedule):
+    #     #calculates remaining 48 words
+    #     for i in range(16,63):
+    #         toAppend = 
+    #         message_schedule.append(message_schedule[i-2])
        
 
 class FetchRandomText:
@@ -193,31 +228,7 @@ class PreparePadding:
         print()
 
 
-#%%
-# 0 1 1 0 1 1 1 1 0 0 1 0 0 0 0 0 0 1 1 1 0 1 1 1 0 1 1 0 1 1 1 1 
 
-# i0 = 1 1 0 1 1 1 1 0 0 1 0 0 0 0 0 0 1 1 1 0 1 1 1 0 1 1 0 1 1 1 1 0
-# i1 = 1 0 1 1 1 1 0 0 1 0 0 0 0 0 0 1 1 1 0 1 1 1 0 1 1 0 1 1 1 1 0 1
-# i2 = 0 1 1 1 1 0 0 1 0 0 0 0 0 0 1 1 1 0 1 1 1 0 1 1 0 1 1 1 1 0 1 1
-# i3 = 1 1 1 1 0 0 1 0 0 0 0 0 0 1 1 1 0 1 1 1 0 1 1 0 1 1 1 1 0 1 1 0
-# i4 = 1 1 1 0 0 1 0 0 0 0 0 0 1 1 1 0 1 1 1 0 1 1 0 1 1 1 1 0 1 1 0 1
-# i5 = 1 1 0 0 1 0 0 0 0 0 0 1 1 1 0 1 1 1 0 1 1 0 1 1 1 1 0 1 1 0 1 1
-# i6 = 1 0 0 1 0 0 0 0 0 0 1 1 1 0 1 1 1 0 1 1 0 1 1 1 1 0 1 1 0 1 1 1
-
-# def test(message_schedule):
-#     for i in range(16,63):
-#         message_schedule[len(message_schedule)-1] = message_schedule[0]
-#         message_schedule[i] = message_schedule[i+1]
-#     print(message_schedule)
-
-
-# test([1,2,3,4])
-
-#%%
-# from collections import deque
-# items = deque('01101111001000000111011101101111')
-# items.rotate(7)
-# ''.join(items)
 
 
 
