@@ -7,4 +7,4 @@
 
 
 Status:
-* constants generated with either hex or binary functionality
+* sigma functions created

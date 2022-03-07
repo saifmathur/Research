@@ -54,6 +54,11 @@ hash_values = gc.hashValues()
 
 #create message schedule
 message_schedule = preprocessing.createMessageSchedule(chunkList=message_chunked_to_512)
-print(message_schedule,"\nLenght of message schedule: ",len(message_schedule))
+#print(message_schedule,"\nLenght of message schedule: ",len(message_schedule))
 
 
+print(preprocessing.usigma0('01101111001000000111011101101111'))
+
+# %%
+
+# %%

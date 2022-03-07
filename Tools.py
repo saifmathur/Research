@@ -180,9 +180,7 @@ class PreProcessing:
             raise Error("'Rotateby' should be negative")
 
     
-    # def sigma1(self,x):
-    #     a = int(self.rightRotate(x,17),2)
-    #     b = int(self.rightRotate(x,19),2)
+    
 
     def shiftRight(self, messageString, shiftBy = 1):
         if shiftBy < 32: 
@@ -204,6 +202,41 @@ class PreProcessing:
             return str(result)[shiftBy:]
         else:
             raise Error("Change 'shiftBy' factor")
+
+
+    def sigma0(self,x):
+        a = int(self.rightRotate(x,7),2)
+        b = int(self.rightRotate(x,18),2)
+        c = int(self.shiftRight(x,3),2)
+        result = a^b^c
+        result = format(result,'032b')
+        return result
+
+    def sigma1(self,x):
+        a = int(self.rightRotate(x,17),2)
+        b = int(self.rightRotate(x,19),2)
+        c = int(self.shiftRight(x,10),2)
+        result = a^b^c
+        result = format(result,'032b')
+        return result
+
+    def usigma0(self,x):
+        a = int(self.rightRotate(x,2),2)
+        b = int(self.rightRotate(x,13),2)
+        c = int(self.rightRotate(x,22),2)
+        result = a^b^c
+        result = format(result,'032b')
+        return result
+
+    def usigma1(self,x):
+        a = int(self.rightRotate(x,6),2)
+        b = int(self.rightRotate(x,11),2)
+        c = int(self.rightRotate(x,25),2)
+        result = a^b^c
+        result = format(result,'032b')
+        return result
+
+
 
     # def refineMessageSchedule(self, message_schedule):
     #     #calculates remaining 48 words
