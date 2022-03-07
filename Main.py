@@ -57,8 +57,14 @@ message_schedule = preprocessing.createMessageSchedule(chunkList=message_chunked
 #print(message_schedule,"\nLenght of message schedule: ",len(message_schedule))
 
 
-print(preprocessing.usigma0('01101111001000000111011101101111'))
+s0 = preprocessing.sigma0('01101111001000000111011101101111')
+s1 = preprocessing.sigma1('00000000000000000000000000000000')
+#print(s0)
+# w1 = int('01101000011001010110110001101100',2) + int('11001110111000011001010111001011',2) + int('00000000000000000000000000000000',2) + int('00000000000000000000000000000000',2)
+# print(w1)
+# print(format(w1,'032b'))
+# print(format(w1%2**32,'032b'))
 
-# %%
-
+w1 = preprocessing.add('01101000011001010110110001101100',s0,'00000000000000000000000000000000',s1)
+print(w1)
 # %%

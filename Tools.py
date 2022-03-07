@@ -1,7 +1,8 @@
 #%%
 from math import floor as mf
 from collections import deque
-from msilib.schema import Error #to right rotate
+from msilib.schema import Error
+from unittest import result #to right rotate
 import requests
 import math
 class GenerateConstants:
@@ -236,7 +237,14 @@ class PreProcessing:
         result = format(result,'032b')
         return result
 
-
+    def add(self, w1,s0,s1,w2):
+        #w0 = int(w1,2)
+        #s0 = int(s0,2)
+        #w2 = int(w2,2)
+        #s1 = int(s1,2)
+        result = int(w1,2) + int(s0,2) + int(w2,2) + int(s1,2)
+        result = format(result%2**32,'032b')
+        return result
 
     # def refineMessageSchedule(self, message_schedule):
     #     #calculates remaining 48 words
