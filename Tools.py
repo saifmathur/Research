@@ -132,11 +132,29 @@ class PreProcessing:
         str1 = bin(n).replace("0b", "0")
         #return str1.ljust(8,'0')
         return str1
+
+    #not being used for now
+    def pad_messageSchedule(message_schedule):
+        for i in range(16,64):
+            message_schedule.append('0'.zfill(32))
+        return message_schedule
+
+    # def combine_string_appendBigEndian(self,before_string,lenOfOriginalString):
+    #     #pad 0s till theres space for the big endian binary number and append big endian
+    #     before_string = ''.join(before_string)
+    #     pad_till = self.decimalToBinary(lenOfOriginalString)
+    #     print(pad_till)
+    #     for i in range(len(before_string), len(before_string)+(64-len(pad_till))):
+    #         before_string = before_string + '0'
+    #     before_string = before_string + pad_till
+    #     return(before_string)
+
     
     def combine_string_appendBigEndian(self,before_string,lenOfOriginalString):
         #pad 0s till theres space for the big endian binary number and append big endian
         before_string = ''.join(before_string)
-        pad_till = self.decimalToBinary(lenOfOriginalString)
+        pad_till = self.decimalToBinary(lenOfOriginalString*8)
+        
         for i in range(len(before_string), len(before_string)+(64-len(pad_till))):
             before_string = before_string + '0'
         before_string = before_string + pad_till
@@ -246,6 +264,25 @@ class PreProcessing:
         result = format(result%2**32,'032b')
         return result
 
+    
+    def addSigmaProcessing(self,new_message):
+        for i in range(16,64):
+            w = new_message
+            #s0 = self.rightRotate(int(w[i-15],2),7) ^ self.rightRotate(int(w[i-15],2),18) ^ self.shiftRight(int(w[i-15],2),3)
+            s0 = self.sigma0(w[i-15])
+            #s1 = self.rightRotate(int(w[i-2]),17) ^ self.rightRotate(int(w[i-2]),19) ^ self.shiftRight(int(w[i-2]),10)
+            s1 = self.sigma1(w[i-2])
+            #w[i] = self.add(w[i-16], s0 , w[i-7] , s1)
+            w.append(self.add(w[i-16], s0 , w[i-7] , s1))
+            #print(self.add(w[i-16], s0 , w[i-7] , s1))
+        return w
+
+    def HexToBinary(self, hexString, num_of_bits=32):
+        #returns 32 bit binary number of hex
+        hexs = []
+        for i in range(len(hexString)):
+            hexs.append(bin(int(hexString[i], 16))[2:].zfill(num_of_bits))
+        return hexs
     # def refineMessageSchedule(self, message_schedule):
     #     #calculates remaining 48 words
     #     for i in range(16,63):
@@ -271,6 +308,16 @@ class PreparePadding:
 
 
 
+#%%
 
+def combine_string_appendBigEndian(self,before_string,lenOfOriginalString):
+    #pad 0s till theres space for the big endian binary number and append big endian
+    before_string = ''.join(before_string)
+    pad_till = self.decimalToBinary(lenOfOriginalString)
+    print(pad_till)
+    for i in range(len(before_string), len(before_string)+(64-len(pad_till))):
+        before_string = before_string + '0'
+    before_string = before_string + pad_till
+    return(before_string)
 
 # %%
