@@ -2,6 +2,7 @@
 from math import floor as mf
 from collections import deque
 from msilib.schema import Error
+from operator import xor
 from unittest import result #to right rotate
 import requests
 import math
@@ -240,20 +241,36 @@ class PreProcessing:
         return result
 
     def usigma0(self,x):
-        a = int(self.rightRotate(x,2),2)
-        b = int(self.rightRotate(x,13),2)
-        c = int(self.rightRotate(x,22),2)
-        result = a^b^c
-        result = format(result,'032b')
-        return result
+        try:
+            a = int(self.rightRotate(x,2),2)
+            b = int(self.rightRotate(x,13),2)
+            c = int(self.rightRotate(x,22),2)
+            result = a^b^c
+            result = format(result,'032b')
+            return result
+        except TypeError:
+            a = int(self.rightRotate(self.format(x),2),2)
+            b = int(self.rightRotate(self.format(x),13),2)
+            c = int(self.rightRotate(self.format(x),22),2)
+            result = a^b^c
+            result = format(result,'032b')
+            return result
 
     def usigma1(self,x):
-        a = int(self.rightRotate(x,6),2)
-        b = int(self.rightRotate(x,11),2)
-        c = int(self.rightRotate(x,25),2)
-        result = a^b^c
-        result = format(result,'032b')
-        return result
+        try:
+            a = int(self.rightRotate(x,6),2)
+            b = int(self.rightRotate(x,11),2)
+            c = int(self.rightRotate(x,25),2)
+            result = a^b^c
+            result = format(result,'032b')
+            return result
+        except TypeError:
+            a = int(self.rightRotate(self.format(x),6),2)
+            b = int(self.rightRotate(self.format(x),11),2)
+            c = int(self.rightRotate(self.format(x),25),2)
+            result = a^b^c
+            result = format(result,'032b')
+            return result
 
     def add(self, w1,s0,s1,w2):
         #w0 = int(w1,2)
@@ -283,12 +300,159 @@ class PreProcessing:
         for i in range(len(hexString)):
             hexs.append(bin(int(hexString[i], 16))[2:].zfill(num_of_bits))
         return hexs
-    # def refineMessageSchedule(self, message_schedule):
-    #     #calculates remaining 48 words
-    #     for i in range(16,63):
-    #         toAppend = 
-    #         message_schedule.append(message_schedule[i-2])
-       
+
+    def choice(self,e,f,g):
+        try:
+            e = int(e,2)
+            f = int(f,2)
+            g = int(g,2)
+            ch = (e & f) ^ ((~e) & g)
+            return ch
+        except TypeError:
+            ch = (e & f) ^ ((~e) & g)
+            return ch
+
+    def majority(self,a,b,c):
+        try:
+            a = int(a,2)
+            b = int(b,2)
+            c = int(c,2)
+            maj = (a & b) ^ (a & c) ^ (b & c)
+            return maj
+        except TypeError:
+            maj = (a & b) ^ (a & c) ^ (b & c)
+            return maj
+
+    def compress(self, hashValuesInBinary,constants64_inBinary, message_schedule_with_sigma):     
+        # a = '01101010000010011110011001100111' = 0
+        # b = '10111011011001111010111010000101' = 1
+        # c = '00111100011011101111001101110010' = 2
+        # d = '10100101010011111111010100111010' = 3
+        # e = '01010001000011100101001001111111' = 4
+        # f = '10011011000001010110100010001100' = 5
+        # g = '00011111100000111101100110101011' = 6 
+        # h = '01011011111000001100110100011001' = 7
+        a = hashValuesInBinary[0]
+        b = hashValuesInBinary[1]
+        c = hashValuesInBinary[2]
+        d = hashValuesInBinary[3]
+        e = hashValuesInBinary[4]
+        f = hashValuesInBinary[5]
+        g = hashValuesInBinary[6]
+        h = hashValuesInBinary[7]
+
+        A = int(a,2)
+        B = int(b,2)
+        C = int(c,2)
+        D = int(d,2)
+        E = int(e,2)
+        F = int(f,2)
+        G = int(g,2)
+        H = int(h,2)
+        for i in range(64):
+            S1 = int(self.usigma1(E),2)
+            ch = self.choice(E,F,G)  
+            k = int(constants64_inBinary[i],2)
+            w = int(message_schedule_with_sigma[i],2)
+            temp1 = H + S1 + ch + k + w
+
+            S0 = int(self.usigma0(A),2)
+            maj = self.majority(A,B,C)
+            temp2 = S0 + maj
+            
+            #print(self.format(temp1+temp2))     
+            #new  = temp1 + temp2
+            # h = g
+            # g = f
+            # f = e
+            # e = self.format((int(d,2) + temp1))
+            # d = c
+            # c = b
+            # b = a
+            # a = self.format(new)
+            
+            H = G
+            G = F
+            F = E
+            E = D + temp1
+            D = C
+            C = B
+            B = A
+            A = temp1 + temp2
+
+
+            # print("i: ",i)
+            # print(self.format(A))
+            # print(self.format(B))
+            # print(self.format(C))
+            # print(self.format(D))
+            # print(self.format(E))
+            # print(self.format(F))
+            # print(self.format(G))
+            # print(self.format(H))
+            # print("\n")
+            # inth = intg
+            # intg = intf
+            # intf = inte
+            # inte = intd + temp1
+            # intd = intc
+            # intc = intb
+            # intb = inta
+            # inta = temp1 + temp2
+              
+        #compression_list = [a,b,c,d,e,f,g,h]
+        compression_list_inInt = [A,B,C,D,E,F,G,H]
+        
+        #compressed_with_added_initialValues = self.addInitialHashValues(compression_list_inInt, hashValuesInBinary)
+        return self.addInitialHashValues(compression_list_inInt, hashValuesInBinary)
+        
+
+    def addInitialHashValues(self, compression_list, hashValuesInBinary):
+        a = int(hashValuesInBinary[0],2)
+        b = int(hashValuesInBinary[1],2)
+        c = int(hashValuesInBinary[2],2)
+        d = int(hashValuesInBinary[3],2)
+        e = int(hashValuesInBinary[4],2)
+        f = int(hashValuesInBinary[5],2)
+        g = int(hashValuesInBinary[6],2)
+        h = int(hashValuesInBinary[7],2)
+
+        A = compression_list[0]
+        B = compression_list[1]
+        C = compression_list[2]
+        D = compression_list[3]
+        E = compression_list[4]
+        F = compression_list[5]
+        G = compression_list[6]
+        H = compression_list[7]
+
+        newA = A + a
+        newB = B + b
+        newC = C + c
+        newD = D + d
+        newE = E + e
+        newF = F + f
+        newG = G + g
+        newH = H + h
+        
+        compression_list = [newA , newB , newC , newD , newE , newF , newG , newH]
+        for i in range(len(compression_list)):
+            compression_list[i] = self.format(compression_list[i])
+
+        return compression_list
+
+
+    def format(self,integer):
+        return format(integer%2**32,'032b')
+
+    
+    def convertAppendHash(self,digest):
+        hash = ""
+        for i in range(len(digest)):
+            hash = hash + hex(int(digest[i],2))[2:]
+
+        print(hash)
+        return hash
 
 class FetchRandomText:
     def fetchRandomText(self, URL = "https://baconipsum.com/api/?type=meat-and-filler&paras=5&format=text"):
@@ -307,17 +471,5 @@ class PreparePadding:
 
 
 
-
-#%%
-
-def combine_string_appendBigEndian(self,before_string,lenOfOriginalString):
-    #pad 0s till theres space for the big endian binary number and append big endian
-    before_string = ''.join(before_string)
-    pad_till = self.decimalToBinary(lenOfOriginalString)
-    print(pad_till)
-    for i in range(len(before_string), len(before_string)+(64-len(pad_till))):
-        before_string = before_string + '0'
-    before_string = before_string + pad_till
-    return(before_string)
 
 # %%

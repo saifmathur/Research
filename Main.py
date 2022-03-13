@@ -32,7 +32,7 @@ print("OK" if len(combined_string_with_bigEndian)%512==0 else "FAILED")
 
 
 #break into 512 bit chunks
-print("breaking new_ into 512 bit chunks...")
+print("breaking into 512 bit chunks...")
 message_chunked_to_512 = preprocessing.break_into_512_chunks(combined_string_with_bigEndian)
 
 
@@ -45,11 +45,11 @@ cubeList  = gc.genCubeRoots(primeList)
 #print(cubeList)
 constants64 = gc.calHexOfCube(cubeList)
 #print(constants64)
-
+constants64_binary = preprocessing.HexToBinary(constants64)
 
 #get hash values
 hash_values = gc.hashValues()
-print(hash_values)
+#print(hash_values)
 
 
 #create message schedule
@@ -61,12 +61,21 @@ message_schedule = preprocessing.createMessageSchedule(chunkList=message_chunked
 
 #sigma words added
 message_schedule_with_sigmaWords = preprocessing.addSigmaProcessing(message_schedule)
-#print(len(message_schedule_with_sigmaWords))
+
 
 
 #compression
 #using hash values for compressions
 binary_of_hexValues = preprocessing.HexToBinary(hash_values)
+
+
+#final digest
+digest = preprocessing.compress(binary_of_hexValues,constants64_binary,message_schedule_with_sigmaWords)
+
+#hash gen
+preprocessing.convertAppendHash(digest)
+
+
 
 
 
