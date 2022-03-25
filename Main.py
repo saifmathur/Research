@@ -9,7 +9,7 @@ fetch = FetchRandomText()
 
 #converting string to binary
 #FinalBinary, lengthOfOriginal, Original = preprocessing.S2B("hello world")
-FinalBinary, lengthOfOriginal, Original = preprocessing.S2B("abc")
+FinalBinary, lengthOfOriginal, Original = preprocessing.S2B("")
 #FinalBinary, lengthOfOriginal, Original = preprocessing.S2B(fetch.fetchRandomText())
 
 
