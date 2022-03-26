@@ -2,6 +2,7 @@
 
 from Tools import GenerateConstants, PreProcessing, FetchRandomText
 import requests
+from modSHA import MathFunctions, ModSHA
 gc = GenerateConstants()
 preprocessing = PreProcessing()
 fetch = FetchRandomText()
@@ -56,8 +57,14 @@ hash_values = gc.hashValues()
 message_schedule = preprocessing.createMessageSchedule(chunkList=message_chunked_to_512)
 #print(message_schedule,"\nLenght of message schedule: ",len(message_schedule))
 
+#%%
+#ModSHA Cell
+mf = MathFunctions()
+#mf.sigma0Mod(message_schedule[0])
+mf.sigma1Mod(message_schedule[0])
 
 
+#%%
 
 #sigma words added
 message_schedule_with_sigmaWords = preprocessing.addSigmaProcessing(message_schedule)

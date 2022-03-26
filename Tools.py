@@ -191,7 +191,7 @@ class PreProcessing:
         else:
             raise Error("'Rotateby' should be positive")
         
-    def leftRotate(self, messageString, rotateBy=-abs(1)):
+    def leftRotate(self, messageString, rotateBy= -1):
         if rotateBy < 0:
             items = deque(messageString)
             items.rotate(rotateBy)
