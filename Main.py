@@ -61,7 +61,9 @@ message_schedule = preprocessing.createMessageSchedule(chunkList=message_chunked
 #ModSHA Cell
 mf = MathFunctions()
 #mf.sigma0Mod(message_schedule[0])
-mf.sigma1Mod(message_schedule[0])
+#mf.sigma1Mod(message_schedule[0])
+#mf.usigma0Mod(message_schedule[0])
+mf.usigma1Mod(message_schedule[0])
 
 
 #%%
