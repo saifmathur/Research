@@ -465,10 +465,10 @@ class FetchRandomText:
             "STATUS: NOT FOUND"
             return None
 
-class PreparePadding:
-    def prepPad(self, list):
-        print()
 
+class Hash:
+    def genHash(self,message_schedule_with_sigmaWords,binary_of_hexValues):
+        print()
 
 
 
