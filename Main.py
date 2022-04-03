@@ -23,10 +23,22 @@ def genSHA():
     preprocessing.convertAppendHash(digest)
     
 
-#genSHA()
-
+genSHA()
 genMod.genModHash()
 end=time.time()
-print(end-start)
+print("Time to Hash: ",end-start)
 
 # %%
+import time
+start = time.time()
+import hashlib
+import requests
+a_string = requests.get('https://baconipsum.com/api/?type=meat-and-filler&paras=5&format=text').text
+hashed_string = hashlib.sha256(a_string.encode('utf-8')).hexdigest()
+print(hashed_string)
+end = time.time()
+print(end-start)
+# %%
+
+# 2.0325841903686523
+# 1.147935152053833
