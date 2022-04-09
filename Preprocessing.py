@@ -11,8 +11,8 @@ class Preprocessing:
         #mod = ModSHA()
         #converting string to binary
         #FinalBinary, lengthOfOriginal, Original = preprocessing.S2B("hello world")
-        #FinalBinary, lengthOfOriginal, Original = preprocessing.S2B("abc")
-        FinalBinary, lengthOfOriginal, Original = preprocessing.S2B(fetch.fetchRandomText())
+        FinalBinary, lengthOfOriginal, Original = preprocessing.S2B("abc")
+        #FinalBinary, lengthOfOriginal, Original = preprocessing.S2B(fetch.fetchRandomText())
 
         #pad with 0 till string is a multiple of 512
         padded = preprocessing.pad(FinalBinary,512)

@@ -2,10 +2,10 @@
 import time
 start = time.time()
 from Preprocessing import Preprocessing
-from modSHA import ModSHA, GenModHash
+from mod2SHA import Mod2SHA, GenModHash
 from Tools import PreProcessing
 preprocessing = PreProcessing()
-mod = ModSHA()
+mod = Mod2SHA()
 genMod = GenModHash()
 message_schedule, hash_values, constants64_binary = Preprocessing().preprocess()
 binary_of_hexValues = preprocessing.HexToBinary(hash_values)
@@ -24,7 +24,7 @@ def genSHA():
     
 
 genSHA()
-genMod.genModHash()
+genMod.genMod2Hash()
 end=time.time()
 print("Time to Hash: ",end-start)
 

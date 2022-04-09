@@ -1,9 +1,9 @@
 #%%
 from math import floor as mf
-from collections import deque
+from collections import deque #to right rotate
 from msilib.schema import Error
 from operator import xor
-from unittest import result #to right rotate
+from unittest import result 
 import requests
 import math
 class GenerateConstants:

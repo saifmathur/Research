@@ -51,15 +51,35 @@ class MathFunctions:
             result = format(result,'032b')
             return result
 
-    def choice(self,e,f,g):
-        print()
+    def choice(self,a,c,e): #taking A,C,E
         #changes to logical operation
-        #OR 
+        #OR
+        try: 
+            a = int(a,2)
+            c = int(c,2)
+            e = int(e,2)
+            ch = (a|c) ^ ((~a)|e)
+            return ch
+        except TypeError:
+            ch = (a|c) ^ ((~a)|e)
+            return ch
 
-    def majority(self,a,b,c):
-        print()
-        #changes to logical operation
-class ModSHA:
+    def majority(self,b,d,h): 
+        #changes to logical operation and constants
+        try:
+            b = int(b,2)
+            d = int(d,2)
+            h = int(h,2)
+            maj = (b|d) ^ (b|h) ^ (d|h)
+            return maj
+        except TypeError:
+            maj = (b|d) ^ (b|h) ^ (d|h)
+            return maj
+
+
+
+
+class Mod2SHA:
     mf = MathFunctions()
     def addSigmaProcessingWithMod(self, new_message):
         for i in range(16,64):
@@ -89,13 +109,15 @@ class ModSHA:
         H = int(h,2)
         for i in range(64):
             S1 = int(self.mf.usigma1Mod(E),2)
-            ch = pre.choice(E,F,G)  
+            #ch = pre.choice(E,F,G)
+            ch = self.mf.choice(A,C,E)  
             k = int(constants64_inBinary[i],2)
             w = int(message_schedule_with_ModSigma[i],2)
             temp1 = H + S1 + ch + k + w
 
             S0 = int(self.mf.usigma0Mod(A),2)
-            maj = pre.majority(A,B,C)
+            #maj = pre.majority(A,B,C)
+            maj = self.mf.majority(B,D,H)
             temp2 = S0 + maj
 
             H = G
@@ -113,10 +135,10 @@ class ModSHA:
 
 class GenModHash:
     preprocessing = PreProcessing()
-    mod = ModSHA()
+    mod = Mod2SHA()
     message_schedule, hash_values, constants64_binary = Preprocessing().preprocess()
     binary_of_hexValues = preprocessing.HexToBinary(hash_values)
-    def genModHash(self):
+    def genMod2Hash(self):
         message_schedule_with_sigmaWordsMOD = self.mod.addSigmaProcessingWithMod(self.message_schedule)
         digest = self.mod.ModCompression(self.binary_of_hexValues,self.constants64_binary,message_schedule_with_sigmaWordsMOD)
         self.preprocessing.convertAppendHash(digest)
